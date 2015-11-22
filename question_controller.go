@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"github.com/go-martini/martini"
 	"github.com/jinzhu/gorm"
 	"github.com/martini-contrib/render"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // IndexQuestion returns list of questions
@@ -18,7 +18,6 @@ func IndexQuestion(req *http.Request, params martini.Params, r render.Render, db
 	page, err := strconv.Atoi(rawPage)
 	maxResults, err := strconv.Atoi(rawMaxResults)
 	if err != nil {
-		fmt.Println(err)
 		r.JSON(400, Error{400, "page and maxResults must be integer."})
 	}
 
@@ -26,7 +25,7 @@ func IndexQuestion(req *http.Request, params martini.Params, r render.Render, db
 	offset = (page - 1) * maxResults
 
 	var questions []Question
-	db.Limit(limit).Offset(offset).Find(&questions)
+	db.Order("id desc").Limit(limit).Offset(offset).Find(&questions)
 	for i, v := range questions {
 		db.Model(&v).Related(&questions[i].Comments)
 		db.Model(&v).Related(&questions[i].Selections)
@@ -58,6 +57,7 @@ func CreateQuestion(question Question, r render.Render, db *gorm.DB) {
 
 // UpdateQuestion update a question
 func UpdateQuestion(question Question, r render.Render, db *gorm.DB) {
+	question.UpdatedAt = time.Now()
 	db.Save(&question)
 	r.JSON(200, question)
 }

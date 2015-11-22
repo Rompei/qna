@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"github.com/go-martini/martini"
 	"github.com/jinzhu/gorm"
 	"github.com/martini-contrib/render"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // IndexSelection returns list of comments
@@ -18,7 +18,6 @@ func IndexSelection(req *http.Request, params martini.Params, r render.Render, d
 	page, err := strconv.Atoi(rawPage)
 	maxResults, err := strconv.Atoi(rawMaxResults)
 	if err != nil {
-		fmt.Println(err)
 		r.JSON(400, Error{400, "page and maxResults must be integer."})
 	}
 
@@ -26,7 +25,7 @@ func IndexSelection(req *http.Request, params martini.Params, r render.Render, d
 	offset = (page - 1) * maxResults
 
 	var comments []Selection
-	db.Limit(limit).Offset(offset).Find(&comments)
+	db.Order("id desc").Limit(limit).Offset(offset).Find(&comments)
 	r.JSON(200, comments)
 }
 
@@ -52,6 +51,7 @@ func CreateSelection(selection Selection, r render.Render, db *gorm.DB) {
 
 // UpdateSelection update a selection
 func UpdateSelection(selection Selection, r render.Render, db *gorm.DB) {
+	selection.UpdatedAt = time.Now()
 	db.Save(&selection)
 	r.JSON(200, selection)
 }

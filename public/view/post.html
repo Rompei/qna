@@ -1,0 +1,42 @@
+<md-dialog aria-label="Post Question" ng-clock>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Post Question</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="img/close.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="max-width:800px;max-height:810px; ">
+      <div class="md-dialog-content">
+        <p>Please input your question you are feel annoying.</p>
+        <md-input-container>
+          <label>Title</label>
+          <input ng-model="question.title" md-autofocus>
+        </md-input-container>
+        <md-list>
+          <md-subheader class="md-no-sticky">Selections</md-subheader>
+          <md-list-item ng-repeat="selection in question.selections">
+            <div class="md-list-item-text" layout="column">
+              <md-input-container >
+                <label>Selection{{ $index }}</label>
+                <input ng-model="selection.content">
+              </md-input-container>
+            </div>
+          </md-list-item>
+        <div layout="row">
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="addSelection()">
+            <md-icon md-svg-src="img/add_box.svg" aria-label="Add Selection"></md-icon>
+          </md-button>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="post(question)" style="margin-right:20px;">Post</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

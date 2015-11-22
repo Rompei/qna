@@ -1,0 +1,21 @@
+<div ng-cloak>
+  <md-content>
+    <md-list>
+      <md-subheader class="md-no-sticky">Questions</md-subheader>
+      <md-list-item ng-repeat="question in questions">
+        <div class="md-list-item-text" layout="row">
+          <a ui-sref="question({id: question.id})" style="text-decoration:none;">{{ question.title }}</a>
+        </div>
+      </md-list-item>
+    </md-list>
+    <div layout="row" layout-align="center center">
+      <md-button ng-click="prev()">Previous</md-button>
+      <md-button ng-click="next()">Next</md-button>
+    </div>
+  </md-content>
+  <section layout="row" layout-align="end center" layout-sm="column" layout-wrap>
+    <md-button ng-click="post()" class="md-fab" aria-label="Post question">
+      <md-icon md-svg-src="img/add.svg"></md-icon>
+    </md-button>
+  </section>
+</div>

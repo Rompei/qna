@@ -1,0 +1,26 @@
+<div ng-cloak>
+  <md-content layout-padding>
+    <h5>Title</h5>
+    <p>{{ question.title }}</p>
+    <h5>Votes</h5>
+    <div ng-repeat="selection in question.selections" layout="row">
+      <p>{{ selection.content }}: </p>
+      <p>{{ selection.count }}</p>
+      <md-button class="md-secondary" ng-click="vote(selection)">Vote</md-button>
+    </div>
+    <h5>Comments</h5>
+    <div ng-repeat="comment in question.comments">
+      <p>{{ comment.content }}</p>
+    </div>
+    <md-input-container>
+      <label>Comment</label>
+      <textarea ng-model="newComment.content"></textarea>
+    </md-input-container>
+    <span flex></span>
+    <div layout="row" layout-align="end center">
+      <md-button ng-click="post()">
+        Post
+      </md-button>
+    </div>
+  </md-content>
+</div>
